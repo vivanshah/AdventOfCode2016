@@ -15,10 +15,11 @@ namespace AdventOfCode2016
             IEnumerable<string> input = File.ReadAllLines("input\\day4.txt");
             var validRooms = new List<Tuple<string, string>>();
             int result = 0;
+            var chars = "abcdefghijklmnopqrstuvwxyz";
             foreach (var line in input)
             {
                 var checksum = line.Substring(line.IndexOf('[') + 1).TrimEnd(']');
-                var sectorId = line.Substring(line.LastIndexOf('-') + 1, line.IndexOf('[') - 1 - line.LastIndexOf('-'));
+                var sectorId = Int32.Parse(line.Substring(line.LastIndexOf('-') + 1, line.IndexOf('[') - 1 - line.LastIndexOf('-')));
                 var roomwithDashes = line.Substring(0, line.LastIndexOf('-'));
                 var room = roomwithDashes.Replace("-", "");
                 var letters = room.ToList();
@@ -33,41 +34,30 @@ namespace AdventOfCode2016
                     }
                     if (i == checksum.Length - 1)
                     {
-                        result += Int32.Parse(sectorId);
-                        validRooms.Add(new Tuple<string, string>(roomwithDashes, sectorId));
+                        result += sectorId;
+                        var sb = new StringBuilder();
+                        foreach (var l in roomwithDashes)
+                        {
+                            if (l == '-')
+                            {
+                                sb.Append(" ");
+                                continue;
+                            }
+                            int s = chars.IndexOf(l);
+                            s = (s + sectorId) % 26;
+                            sb.Append(chars[s]);
+                        }
+                        var roomname = sb.ToString();
+                        if (roomname.Contains("north"))
+                        {
+                            Console.WriteLine(sb.ToString() + " " + sectorId);
+                        }
                     }
                     i++;
 
                 }
             }
-
             Console.WriteLine("sector sum: " + result);
-            foreach (var rs in validRooms)
-            {
-                var room = rs.Item1;
-                var sector = Int32.Parse(rs.Item2);
-                var chars = "abcdefghijklmnopqrstuvwxyz";
-
-                var sb = new StringBuilder();
-                foreach (var c in room)
-                {
-                    if (c == '-')
-                    {
-                        sb.Append(" ");
-                        continue;
-                    }
-                    int i = chars.IndexOf(c);
-                    i = (i + sector) % 26;
-                    sb.Append(chars[i]);
-
-
-                }
-                var roomname = sb.ToString();
-                if (roomname.Contains("orth"))
-                {
-                    Console.WriteLine(sb.ToString() + " " + sector);
-                }
-            }
         }
     }
 }
