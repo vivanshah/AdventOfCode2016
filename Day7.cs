@@ -73,8 +73,8 @@ namespace AdventOfCode2016
             int sslIPs = 0;
             int x = 0;
             bool inHypernet = false;
-            var abaInHypernet = new List<string>();
-            var abaInSupernet = new List<string>();
+            var abaInHypernet = new HashSet<string>();
+            var abaInSupernet = new HashSet<string>();
             foreach (var line in input)
             {
                 inHypernet = false;
