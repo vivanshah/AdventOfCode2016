@@ -10,7 +10,7 @@ namespace AdventOfCode2016
     {
         static void Main(string[] args)
         {
-            new Day6().calculate();
+            new Day7().calculate2();
 
             Console.ReadLine();
         }
