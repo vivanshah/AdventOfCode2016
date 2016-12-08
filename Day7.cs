@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AdventOfCode2016
@@ -71,18 +72,13 @@ namespace AdventOfCode2016
 
             IEnumerable<string> input = File.ReadAllLines("input\\day7.txt");
             int sslIPs = 0;
-            int x = 0;
-            bool inHypernet = false;
-            var abaInHypernet = new HashSet<string>();
-            var abaInSupernet = new HashSet<string>();
-            foreach (var line in input)
+            Parallel.ForEach(input, line => 
             {
-                inHypernet = false;
-                x++;
                 char[] queue = new char[3];
                 int queuePtr = 0;
-                abaInHypernet.Clear();
-                abaInSupernet.Clear();
+                bool inHypernet = false;
+                var abaInHypernet = new HashSet<string>();
+                var abaInSupernet = new HashSet<string>();
                 string reverseAba = null;
                 foreach (var c in line)
                 {
@@ -115,8 +111,7 @@ namespace AdventOfCode2016
                             abaInHypernet.Add(aba);
                             if (abaInSupernet.Contains(reverseAba))
                             {
-                                Console.WriteLine("aba: " + aba + "  bab: " + reverseAba + " inHyper: " + String.Join(",", abaInHypernet) + " inSuper: " + String.Join(",",abaInSupernet) + " line: " + line);
-                                sslIPs++;
+                                Interlocked.Increment(ref sslIPs);
                                 break;
                             }
                             
@@ -126,8 +121,7 @@ namespace AdventOfCode2016
                             abaInSupernet.Add(aba);
                             if (abaInHypernet.Contains(reverseAba))
                             {
-                                Console.WriteLine("aba: " + aba + "  bab: " + reverseAba + " inHyper: " + String.Join(",", abaInHypernet) + " inSuper: " + String.Join(",", abaInSupernet) + " line: " + line);
-                                sslIPs++;
+                                Interlocked.Increment(ref sslIPs);
                                 break;
                             }
                             
@@ -135,7 +129,7 @@ namespace AdventOfCode2016
                     }
 
                 }
-            }
+            });
             Console.WriteLine(sslIPs);
         }
 
