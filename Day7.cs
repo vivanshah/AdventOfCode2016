@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,22 +15,22 @@ namespace AdventOfCode2016
 
         public void calculate1()
         {
-
+            var st = new Stopwatch();
+            st.Start();
             IEnumerable<string> input = File.ReadAllLines("input\\day7.txt");
-       //     var input = new List<String>() { "aaaabba" };
             int abbaIPs = 0;
-            
-            bool inHypernet = false;
             int x = 0;
-            foreach (var line in input)
+
+            Parallel.ForEach(input, line =>
             {
+                bool inHypernet = false;
                 char[] queue = new char[4];
                 int queuePtr = 0;
                 bool abbaInHypernet = false;
                 bool hasABBA = false;
                 foreach (var c in line)
                 {
-                    if(c == '[')
+                    if (c == '[')
                     {
                         inHypernet = true;
                         Array.Clear(queue, 0, 4);
@@ -59,17 +60,19 @@ namespace AdventOfCode2016
                     }
 
                 }
-                if(!abbaInHypernet && hasABBA)
+                if (!abbaInHypernet && hasABBA)
                 {
-                    abbaIPs++;
+                        Interlocked.Increment(ref abbaIPs);
                 }
-            }
-            Console.WriteLine(abbaIPs);
-       }
+            });
+            st.Stop();
+            Console.WriteLine(abbaIPs + " in " + st.Elapsed.TotalMilliseconds);
+        }
 
         public void calculate2()
         {
-
+            var st = new Stopwatch();
+            st.Start();
             IEnumerable<string> input = File.ReadAllLines("input\\day7.txt");
             int sslIPs = 0;
             Parallel.ForEach(input, line => 
@@ -130,10 +133,11 @@ namespace AdventOfCode2016
 
                 }
             });
-            Console.WriteLine(sslIPs);
+            st.Stop();
+            Console.WriteLine(sslIPs + " in " + st.Elapsed.TotalMilliseconds);
         }
 
-        private static String ReverseABA(string aba)
+        private static string ReverseABA(string aba)
         {
             return new string(new char[] {aba[1], aba[0], aba[1]});
         }
