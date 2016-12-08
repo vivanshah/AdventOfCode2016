@@ -73,13 +73,16 @@ namespace AdventOfCode2016
             int sslIPs = 0;
             int x = 0;
             bool inHypernet = false;
+            var abaInHypernet = new List<string>();
+            var abaInSupernet = new List<string>();
             foreach (var line in input)
             {
+                inHypernet = false;
                 x++;
                 char[] queue = new char[3];
                 int queuePtr = 0;
-                var abaInHypernet = new List<string>();
-                var abaInSupernet = new List<string>();
+                abaInHypernet.Clear();
+                abaInSupernet.Clear();
                 string reverseAba = null;
                 foreach (var c in line)
                 {
