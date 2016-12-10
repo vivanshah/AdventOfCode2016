@@ -19,8 +19,11 @@ namespace AdventOfCode2016
            // var input = "X(8x2)(3x3)ABCY";
             int length = 0;
             bool inParen = false;
-
-            for(int x = 0; x < input.Length;)
+            int endParen;
+            int dupeLength;
+            int dupeCount;
+            string[] instruction;
+            for (int x = 0; x < input.Length;)
             { 
                 if(input[x] == '(' && !inParen)
                 {
@@ -29,10 +32,10 @@ namespace AdventOfCode2016
                 if (inParen)
                 {
                     //calc length to add and jump to new position
-                    int endParen = input.IndexOf(')', x);
-                    var instruction = input.Substring(x+1, endParen-x-1).Split('x');
-                    var dupeLength = int.Parse(instruction.First());
-                    var dupeCount = int.Parse(instruction.Last());
+                    endParen = input.IndexOf(')', x);
+                    instruction = input.Substring(x+1, endParen-x-1).Split('x');
+                    dupeLength = int.Parse(instruction.First());
+                    dupeCount = int.Parse(instruction.Last());
                     length += dupeLength * dupeCount;
                     x = endParen + dupeLength+1;
                     inParen = false;
@@ -66,7 +69,11 @@ namespace AdventOfCode2016
         {
             long length = 0;
             bool inParen = false;
-
+            int endParen;
+            int dupeLength;
+            int dupeCount;
+            string[] instruction;
+            string substring;
             for (int x = 0; x < input.Length;)
             {
                 if (input[x] == '(' && !inParen)
@@ -76,11 +83,11 @@ namespace AdventOfCode2016
                 if (inParen)
                 {
                     //calc length to add and jump to new position
-                    int endParen = input.IndexOf(')', x);
-                    var instruction = input.Substring(x + 1, endParen - x - 1).Split('x');
-                    var dupeLength = int.Parse(instruction.First());
-                    var dupeCount = int.Parse(instruction.Last());
-                    var substring = input.Substring(endParen + 1, dupeLength);
+                    endParen = input.IndexOf(')', x);
+                    instruction = input.Substring(x + 1, endParen - x - 1).Split('x');
+                    dupeLength = int.Parse(instruction.First());
+                    dupeCount = int.Parse(instruction.Last());
+                    substring = input.Substring(endParen + 1, dupeLength);
                     length += GetLength(substring) * dupeCount;
                     x = endParen + dupeLength + 1;
                     inParen = false;
