@@ -31,7 +31,6 @@ namespace AdventOfCode2016
                 }
                 if (inParen)
                 {
-                    //calc length to add and jump to new position
                     endParen = input.IndexOf(')', x);
                     instruction = input.Substring(x+1, endParen-x-1).Split('x');
                     dupeLength = int.Parse(instruction.First());
@@ -46,8 +45,6 @@ namespace AdventOfCode2016
                     x++;
                 }
             }
-
-
             st.Stop();
             Console.WriteLine(length + " in " + st.Elapsed.TotalMilliseconds);
         }
@@ -82,7 +79,6 @@ namespace AdventOfCode2016
                 }
                 if (inParen)
                 {
-                    //calc length to add and jump to new position
                     endParen = input.IndexOf(')', x);
                     instruction = input.Substring(x + 1, endParen - x - 1).Split('x');
                     dupeLength = int.Parse(instruction.First());
@@ -100,6 +96,5 @@ namespace AdventOfCode2016
             }
             return length;
         }
-
     }
 }
