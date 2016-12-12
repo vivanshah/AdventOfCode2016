@@ -39,15 +39,10 @@ namespace AdventOfCode2016
                 });
             }
             building.Steps = 0;
-            //List<string> visited = new List<string>();
-            //FindShortestPath(building,0);
-
-            //queue.Add(building.Goal, building);
             queue.Enqueue(building);
             int count = 0;
             while (queue.Count> 0)
             {
-                //var current = queue.RemoveMin();
                 var current = queue.Dequeue();
                 if (visited.Contains(current.State()))
                 {
@@ -55,10 +50,6 @@ namespace AdventOfCode2016
                 }
                 visited.Add(current.State());
                 count++;
-                if(count % 10000 == 0)
-                {
-                    Console.WriteLine("visited " + count + " nodes, current level is " + current.Steps + " priority is " + current.Goal);
-                }
                 if (IsComplete(current))
                 {
                     if (solution > current.Steps)
@@ -71,72 +62,11 @@ namespace AdventOfCode2016
                 var moves = GetValidMoves(current);
                 foreach(var move in moves)
                 {
-                    //queue.Add(move.Goal, move);
                     queue.Enqueue(move);
                 }
-                
             }
-
-
             st.Stop();
             Console.WriteLine(solution + " in " + st.Elapsed.TotalMilliseconds);
-        }
-
-        private bool FindShortestPath(Building building, int steps)
-        {
-            if (steps >= solution || steps > 1000)
-                return false;
-            if (visited.Contains(building.State()))
-            {
-                return false;
-            }
-
-            visited.Add(building.State());
-            if (IsComplete(building))
-            {
-                //   Console.WriteLine("Found solution with " + steps + " steps, current best is " + solution);
-                visited.Remove(building.State());
-                if(steps < solution)
-                {
-                    Console.WriteLine("new best solution: " + steps);
-                    solution = steps;
-                    return true;
-                }
-
-            }
-            
-            var moves = GetValidMoves(building).Where(m => !visited.Contains(m.State()));
-            if (!moves.Any())
-            {
-                return false;
-            }
-            foreach(var move in moves)
-            {
-                if (IsComplete(move))
-                {
-                    if(steps + 1 < solution)
-                    {
-                        solution = steps + 1;
-                        Console.WriteLine("new best solution: " + solution);
-                        return true;
-                    }
-                }
-            }
-            var found = false;
-            foreach(var move in moves)
-            {
-                if(FindShortestPath(move, steps+1))
-                {
-                    visited.Remove(move.State());
-                    found = true;
-                }
-            }
-            //if (found)
-            //{
-            //    visited.RemoveAll(x => moves.Select(s => s.State()).Contains(x));
-            //}
-            return found;
-
         }
 
         private List<Building> GetValidMoves(Building building)
@@ -162,10 +92,8 @@ namespace AdventOfCode2016
                         moves.Add(movedBuilding);
                     }
                 }
-
             }
             return moves.OrderBy(x=>x.Goal).ToList();
-            //return moves;
         }
 
         private Building ApplyMoveAndCheck(Building building, Tuple<string, string> toMove, int newFloor)
@@ -220,11 +148,9 @@ namespace AdventOfCode2016
 
         private List<Tuple<string,string>> GetValidGroups(Floor floor)
         {
-            //Console.WriteLine("valid groups for Floor: " + floor);
             var validGroups = new List<Tuple<string, string>>();
             validGroups.AddRange(floor.AllItems.SelectMany(x => floor.AllItems, (x, y) => Tuple.Create(x, y)).Where(tuple => String.Compare(tuple.Item1,tuple.Item2) == -1).Where(x=>CanMoveTogether(x)));
             validGroups.AddRange(floor.AllItems.Select(x => Tuple.Create<string, string>(x, null)));
-           // Console.WriteLine(String.Join(";", validGroups));
             return validGroups;
 
         }
@@ -233,10 +159,9 @@ namespace AdventOfCode2016
         {
             var item1 = pair.Item1.Split('_');
             var item2 = pair.Item2.Split('_');
-
             return (item1.First() == item2.First()) || (item1.Last() == item2.Last());
-
         }
+
         private bool IsComplete(Building b)
         {
             var topFloor = b.Floors.Last();
@@ -255,18 +180,6 @@ namespace AdventOfCode2016
         private bool IsEmpty(Floor f)
         {
             return f.Chips.Count == 0 && f.Gens.Count == 0;
-        }
-
-        private bool IsValid(Building b)
-        {
-            foreach(var floor in b.Floors)
-            {
-                if (!IsValid(floor))
-                {
-                    return false;
-                }
-            }
-            return true;
         }
 
         private bool IsValid(Floor floor)
@@ -308,6 +221,7 @@ namespace AdventOfCode2016
                 sb.AppendLine("F1" + "\t\t" + String.Join("\t\t", Floors[0].AllItems) + (Elevator == 0 ? "\t\tE" : String.Empty));
                 return sb.ToString();
             }
+
             public Building Clone()
             {
                 var newBuilding = new Building();
@@ -340,7 +254,6 @@ namespace AdventOfCode2016
                     return x;
                 }
             }
-
         }
 
         private class Floor
@@ -406,6 +319,5 @@ namespace AdventOfCode2016
                 }
             }
         }
-    
     }
 }
