@@ -16,12 +16,12 @@ namespace AdventOfCode2016
         MD5 md5 = MD5.Create();
         private string GetString(string toHash)
         {
-            var salt = "ahsbgdzn";
+            var salt = "jlmsuwbz";
             //var salt = "abc";
             byte[] input = Encoding.ASCII.GetBytes(salt + toHash);
             byte[] hash = md5.ComputeHash(input);
             var hex = new StringBuilder();
-            for (int h = 0; h < 2016; h++)
+            for (int h = 0; h < 0; h++)
             {
                 
                 for (int i = 0; i < hash.Length; i++)
@@ -45,7 +45,6 @@ namespace AdventOfCode2016
             st.Start();
 
             int x = 0;
-            int keyNum = 0;
             var keys = new List<Tuple<int,int, char>>();
             var findBy = new Dictionary<char, List<int>>();
             char? three;
@@ -76,7 +75,7 @@ namespace AdventOfCode2016
                     {
                         if (findBy.ContainsKey(f))
                         {
-                            var match = findBy[f].Where(t => t >= x - 1000 && t != x).ToList();
+                            var match = findBy[f].Where(t => t >= x - 1000 && t != x ).ToList();
                             foreach (var m in match)
                             {
                                 keys.Add(Tuple.Create(m, x, f));
@@ -89,7 +88,7 @@ namespace AdventOfCode2016
                             }
                         }
                     }
-                    if (keys.Count > 80) break;
+                    if (keys.Count > 64) break;
                 }
                 x++;
             }
