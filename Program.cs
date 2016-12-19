@@ -12,7 +12,7 @@ namespace AdventOfCode2016
         {
             for (int x = 0; x < 1; x++)
             {
-              //  new Day19().calculate1();
+             //   new Day19().calculate1();
                 new Day19().calculate2();
             }
 
