@@ -10,10 +10,12 @@ namespace AdventOfCode2016
     {
         static void Main(string[] args)
         {
+            Console.SetBufferSize(400, 10000);
+            Console.SetWindowSize(140, 45);
             for (int x = 0; x < 1; x++)
             {
-             //   new Day19().calculate1();
-                new Day19().calculate2();
+                new Day20().calculate1();
+                new Day20().calculate2();
             }
 
             Console.ReadLine();
