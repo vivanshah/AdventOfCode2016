@@ -14,8 +14,8 @@ namespace AdventOfCode2016
             Console.SetWindowSize(180, 45);
             for (int x = 0; x < 1; x++)
             {
-                new Day24().calculate1();
-                new Day24().calculate2();
+                new Day25().calculate1();
+               // new Day25().calculate2();
             }
 
             Console.ReadLine();
